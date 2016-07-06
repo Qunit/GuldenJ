@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="org.guldenj.protocols.channels.ChannelConnectionTest" time="13.208" tests="34" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="/opt/oracle-jdk-bin-1.8.0.72/jre/lib/amd64"/>
+    <property name="java.vm.version" value="25.72-b15"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="/mnt/oldroot/Development/freelance/GULDEN/android/GuldenJ-dev"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=":"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value="unknown"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="/mnt/oldroot/Development/freelance/GULDEN/android/GuldenJ-dev"/>
+    <property name="java.runtime.version" value="1.8.0_72-b15"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="/opt/oracle-jdk-bin-1.8.0.72/jre/lib/endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="os.name" value="Linux"/>
+    <property name="classworlds.conf" value="/usr/share/maven-bin-3.3/bin/m2.conf"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="52.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="4.2.3-gentoo"/>
+    <property name="user.home" value="/home/malcolm"/>
+    <property name="user.timezone" value="GMT"/>
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="user.name" value="malcolm"/>
+    <property name="java.class.path" value="/usr/share/maven-bin-3.3/boot/plexus-classworlds-2.5.2.jar"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="/opt/oracle-jdk-bin-1.8.0.72/jre"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher test"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="en"/>
+    <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.8.0_72"/>
+    <property name="java.ext.dirs" value="/opt/oracle-jdk-bin-1.8.0.72/jre/lib/ext:/usr/java/packages/lib/ext"/>
+    <property name="securerandom.source" value="file:/dev/./urandom"/>
+    <property name="sun.boot.class.path" value="/opt/oracle-jdk-bin-1.8.0.72/jre/lib/resources.jar:/opt/oracle-jdk-bin-1.8.0.72/jre/lib/rt.jar:/opt/oracle-jdk-bin-1.8.0.72/jre/lib/sunrsasign.jar:/opt/oracle-jdk-bin-1.8.0.72/jre/lib/jsse.jar:/opt/oracle-jdk-bin-1.8.0.72/jre/lib/jce.jar:/opt/oracle-jdk-bin-1.8.0.72/jre/lib/charsets.jar:/opt/oracle-jdk-bin-1.8.0.72/jre/lib/jfr.jar:/opt/oracle-jdk-bin-1.8.0.72/jre/classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="/usr/share/maven-bin-3.3"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.cpu.isalist" value=""/>
+  </properties>
+  <testcase name="testDontResumeEmptyChannels[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.16"/>
+  <testcase name="testServerErrorHandling_killSocketOnClose[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.062"/>
+  <testcase name="testServerErrorHandling_killSocketOnError[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.058"/>
+  <testcase name="testClientUnknownVersion[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.054"/>
+  <testcase name="testChannelResume[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="2.116"/>
+  <testcase name="repeatedChannels[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.082"/>
+  <testcase name="testClientErrorHandlingIncreasePaymentError[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.061"/>
+  <testcase name="testValuesAreRespected[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.061"/>
+  <testcase name="testClientRandomMessage[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.055"/>
+  <testcase name="testClientTimeWindowUnacceptable[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.058"/>
+  <testcase name="testClientResumeNothing[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.056"/>
+  <testcase name="testSimpleChannel[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="1.752"/>
+  <testcase name="testEncryptedClientWallet[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="1.83"/>
+  <testcase name="testEmptyWallet[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.106"/>
+  <testcase name="testBadResumeHash[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.079"/>
+  <testcase name="testClientRefusesNonCanonicalKey[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.104"/>
+  <testcase name="testServerErrorHandling_badTransaction[0: ChannelConnectionTest(VERSION_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.088"/>
+  <testcase name="testDontResumeEmptyChannels[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.073"/>
+  <testcase name="testServerErrorHandling_killSocketOnClose[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.053"/>
+  <testcase name="testServerErrorHandling_killSocketOnError[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.065"/>
+  <testcase name="testClientUnknownVersion[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.054"/>
+  <testcase name="testChannelResume[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="2.091"/>
+  <testcase name="repeatedChannels[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.068"/>
+  <testcase name="testClientErrorHandlingIncreasePaymentError[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.09"/>
+  <testcase name="testValuesAreRespected[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.062"/>
+  <testcase name="testClientRandomMessage[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.054"/>
+  <testcase name="testClientTimeWindowUnacceptable[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.063"/>
+  <testcase name="testClientResumeNothing[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.056"/>
+  <testcase name="testSimpleChannel[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="1.67"/>
+  <testcase name="testEncryptedClientWallet[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="1.753"/>
+  <testcase name="testEmptyWallet[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.085"/>
+  <testcase name="testBadResumeHash[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.055"/>
+  <testcase name="testClientRefusesNonCanonicalKey[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.058"/>
+  <testcase name="testServerErrorHandling_badTransaction[1: ChannelConnectionTest(VERSION_2_ALLOW_1)]" classname="org.guldenj.protocols.channels.ChannelConnectionTest" time="0.056"/>
+</testsuite>

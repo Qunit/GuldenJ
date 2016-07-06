@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Test set: org.guldenj.core.CoinbaseBlockTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE! - in org.guldenj.core.CoinbaseBlockTest
+testReceiveCoinbaseTransaction(org.guldenj.core.CoinbaseBlockTest)  Time elapsed: 0 sec  <<< ERROR!
+java.lang.ExceptionInInitializerError: null
+	at com.google.common.base.Preconditions.checkState(Preconditions.java:176)
+	at org.guldenj.params.MainNetParams.<init>(MainNetParams.java:52)
+	at org.guldenj.params.MainNetParams.get(MainNetParams.java:106)
+	at org.guldenj.core.CoinbaseBlockTest.<clinit>(CoinbaseBlockTest.java:38)
+

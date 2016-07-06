@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.guldenj.core.PeerGroupTest
+-------------------------------------------------------------------------------
+Tests run: 42, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 8.563 sec - in org.guldenj.core.PeerGroupTest

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>UnreadableWalletException.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">guldenj</a> &gt; <a href="index.source.html" class="el_package">org.guldenj.store</a> &gt; <span class="el_source">UnreadableWalletException.java</span></div><h1>UnreadableWalletException.java</h1><pre class="source lang-java linenums">package org.guldenj.store;
+
+/**
+ * Thrown by the {@link WalletProtobufSerializer} when the serialized protocol buffer is either corrupted,
+ * internally inconsistent or appears to be from the future.
+ */
+public class UnreadableWalletException extends Exception {
+    public UnreadableWalletException(String s) {
+<span class="fc" id="L9">        super(s);</span>
+<span class="fc" id="L10">    }</span>
+
+    public UnreadableWalletException(String s, Throwable t) {
+<span class="nc" id="L13">        super(s, t);</span>
+<span class="nc" id="L14">    }</span>
+
+    public static class BadPassword extends UnreadableWalletException {
+        public BadPassword() {
+<span class="nc" id="L18">            super(&quot;Password incorrect&quot;);</span>
+<span class="nc" id="L19">        }</span>
+    }
+
+    public static class FutureVersion extends UnreadableWalletException {
+<span class="fc" id="L23">        public FutureVersion() { super(&quot;Unknown wallet version from the future.&quot;); }</span>
+    }
+
+    public static class WrongNetwork extends UnreadableWalletException {
+        public WrongNetwork() {
+<span class="nc" id="L28">            super(&quot;Mismatched network ID&quot;);</span>
+<span class="nc" id="L29">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

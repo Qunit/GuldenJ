@@ -1,0 +1,32 @@
+-------------------------------------------------------------------------------
+Test set: org.guldenj.core.LazyParseByteCacheTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.124 sec <<< FAILURE! - in org.guldenj.core.LazyParseByteCacheTest
+testTransactionsLazyRetain(org.guldenj.core.LazyParseByteCacheTest)  Time elapsed: 0.001 sec  <<< ERROR!
+java.lang.IllegalStateException: dbc3c854ae2c85cd74fd542ade4f0c5785a49f321656ff1edc9799154463591b
+	at com.google.common.base.Preconditions.checkState(Preconditions.java:176)
+	at org.guldenj.params.MainNetParams.<init>(MainNetParams.java:52)
+	at org.guldenj.params.MainNetParams.get(MainNetParams.java:106)
+	at org.guldenj.core.LazyParseByteCacheTest.testTransactionsLazyRetain(LazyParseByteCacheTest.java:140)
+
+testTransactionsNoLazyNoRetain(org.guldenj.core.LazyParseByteCacheTest)  Time elapsed: 0.043 sec  <<< ERROR!
+java.lang.IllegalStateException: dbc3c854ae2c85cd74fd542ade4f0c5785a49f321656ff1edc9799154463591b
+	at com.google.common.base.Preconditions.checkState(Preconditions.java:176)
+	at org.guldenj.params.MainNetParams.<init>(MainNetParams.java:52)
+	at org.guldenj.params.MainNetParams.get(MainNetParams.java:106)
+	at org.guldenj.core.LazyParseByteCacheTest.testTransactionsNoLazyNoRetain(LazyParseByteCacheTest.java:154)
+
+testTransactionsLazyNoRetain(org.guldenj.core.LazyParseByteCacheTest)  Time elapsed: 0.037 sec  <<< ERROR!
+java.lang.IllegalStateException: dbc3c854ae2c85cd74fd542ade4f0c5785a49f321656ff1edc9799154463591b
+	at com.google.common.base.Preconditions.checkState(Preconditions.java:176)
+	at org.guldenj.params.MainNetParams.<init>(MainNetParams.java:52)
+	at org.guldenj.params.MainNetParams.get(MainNetParams.java:106)
+	at org.guldenj.core.LazyParseByteCacheTest.testTransactionsLazyNoRetain(LazyParseByteCacheTest.java:147)
+
+testTransactionsNoLazyRetain(org.guldenj.core.LazyParseByteCacheTest)  Time elapsed: 0.041 sec  <<< ERROR!
+java.lang.IllegalStateException: dbc3c854ae2c85cd74fd542ade4f0c5785a49f321656ff1edc9799154463591b
+	at com.google.common.base.Preconditions.checkState(Preconditions.java:176)
+	at org.guldenj.params.MainNetParams.<init>(MainNetParams.java:52)
+	at org.guldenj.params.MainNetParams.get(MainNetParams.java:106)
+	at org.guldenj.core.LazyParseByteCacheTest.testTransactionsNoLazyRetain(LazyParseByteCacheTest.java:161)
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RequiredFieldValidationException.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">guldenj</a> &gt; <a href="index.source.html" class="el_package">org.guldenj.uri</a> &gt; <span class="el_source">RequiredFieldValidationException.java</span></div><h1>RequiredFieldValidationException.java</h1><pre class="source lang-java linenums">package org.guldenj.uri;
+
+/**
+ * &lt;p&gt;Exception to provide the following to {@link GuldenURI}:&lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;Provision of parsing error messages&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;This exception occurs when a required field is detected (under the BIP21 rules) and fails
+ * to pass the associated test (such as {@code req-expires} being out of date), or the required field is unknown
+ * to this version of the client in which case it should fail for security reasons.&lt;/p&gt;
+ *
+ * @since 0.3.0
+ *         
+ */
+public class RequiredFieldValidationException extends GuldenURIParseException {
+
+    public RequiredFieldValidationException(String s) {
+<span class="fc" id="L18">        super(s);</span>
+<span class="fc" id="L19">    }</span>
+
+    public RequiredFieldValidationException(String s, Throwable throwable) {
+<span class="nc" id="L22">        super(s, throwable);</span>
+<span class="nc" id="L23">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

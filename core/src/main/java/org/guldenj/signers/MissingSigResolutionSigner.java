@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2014 Kosta Korenkov
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.guldenj.signers;
 
 import org.guldenj.core.ECKey;
 import org.guldenj.core.TransactionInput;
-import org.guldenj.core.Wallet;
 import org.guldenj.crypto.TransactionSignature;
 import org.guldenj.script.Script;
 import org.guldenj.script.ScriptChunk;
 import org.guldenj.wallet.KeyBag;
+import org.guldenj.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This transaction signer resolves missing signatures in accordance with the given {@link org.guldenj.core.Wallet.MissingSigsMode}.
+ * This transaction signer resolves missing signatures in accordance with the given {@link org.guldenj.wallet.Wallet.MissingSigsMode}.
  * If missingSigsMode is USE_OP_ZERO this signer does nothing assuming missing signatures are already presented in
  * scriptSigs as OP_0.
  * In MissingSigsMode.THROW mode this signer will throw an exception. It would be MissingSignatureException

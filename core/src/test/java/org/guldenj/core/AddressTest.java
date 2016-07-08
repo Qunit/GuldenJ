@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2011 Google Inc.
  * Copyright 2014 Andreas Schildbach
  *
@@ -40,14 +40,14 @@ public class AddressTest {
 
     @Test
     public void testJavaSerialization() throws Exception {
-        Address testAddress = new Address(testParams, "gbmb8AWregJKrCgw2RhisgAsxKuQisrGhH");
+        Address testAddress = Address.fromBase58(testParams, "gbmb8AWregJKrCgw2RhisgAsxKuQisrGhH");
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         new ObjectOutputStream(os).writeObject(testAddress);
         VersionedChecksummedBytes testAddressCopy = (VersionedChecksummedBytes) new ObjectInputStream(
                 new ByteArrayInputStream(os.toByteArray())).readObject();
         assertEquals(testAddress, testAddressCopy);
 
-        Address mainAddress = new Address(mainParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
+        Address mainAddress = Address.fromBase58(mainParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
         os = new ByteArrayOutputStream();
         new ObjectOutputStream(os).writeObject(mainAddress);
         VersionedChecksummedBytes mainAddressCopy = (VersionedChecksummedBytes) new ObjectInputStream(
@@ -69,10 +69,10 @@ public class AddressTest {
     
     @Test
     public void decoding() throws Exception {
-        Address a = new Address(testParams, "gbmb8AWregJKrCgw2RhisgAsxKuQisrGhH");
+        Address a = Address.fromBase58(testParams, "gbmb8AWregJKrCgw2RhisgAsxKuQisrGhH");
         assertEquals("69cf9635486299e150fd73a103db36fdd95c984f", Utils.HEX.encode(a.getHash160()));
 
-        Address b = new Address(mainParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
+        Address b = Address.fromBase58(mainParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
         assertEquals("5f8d9d250e5d9603ce7d7bdc6bb8ed1e2a77e2ab", Utils.HEX.encode(b.getHash160()));
     }
     
@@ -80,7 +80,7 @@ public class AddressTest {
     public void errorPaths() {
         // Check what happens if we try and decode garbage.
         try {
-            new Address(testParams, "this is not a valid address!");
+            Address.fromBase58(testParams, "this is not a valid address!");
             fail();
         } catch (WrongNetworkException e) {
             fail();
@@ -90,7 +90,7 @@ public class AddressTest {
 
         // Check the empty case.
         try {
-            new Address(testParams, "");
+            Address.fromBase58(testParams, "");
             fail();
         } catch (WrongNetworkException e) {
             fail();
@@ -100,7 +100,7 @@ public class AddressTest {
 
         // Check the case of a mismatched network.
         try {
-            new Address(testParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
+            Address.fromBase58(testParams, "17kzeh4N8g49GFvdDzSf8PjaPfyoD1MndL");
             fail();
         } catch (WrongNetworkException e) {
             // Success.
@@ -151,10 +151,10 @@ public class AddressTest {
     @Test
     public void p2shAddress() throws Exception {
         // Test that we can construct P2SH addresses
-        Address mainNetP2SHAddress = new Address(MainNetParams.get(), "35b9vsyH1KoFT5a5KtrKusaCcPLkiSo1tU");
+        Address mainNetP2SHAddress = Address.fromBase58(MainNetParams.get(), "35b9vsyH1KoFT5a5KtrKusaCcPLkiSo1tU");
         assertEquals(mainNetP2SHAddress.version, MainNetParams.get().p2shHeader);
         assertTrue(mainNetP2SHAddress.isP2SHAddress());
-        Address testNetP2SHAddress = new Address(TestNet3Params.get(), "2MuVSxtfivPKJe93EC1Tb9UhJtGhsoWEHCe");
+        Address testNetP2SHAddress = Address.fromBase58(TestNet3Params.get(), "2MuVSxtfivPKJe93EC1Tb9UhJtGhsoWEHCe");
         assertEquals(testNetP2SHAddress.version, TestNet3Params.get().p2shHeader);
         assertTrue(testNetP2SHAddress.isP2SHAddress());
 
@@ -177,11 +177,11 @@ public class AddressTest {
     @Test
     public void p2shAddressCreationFromKeys() throws Exception {
         // import some keys from this example: https://gist.github.com/gavinandresen/3966071
-        ECKey key1 = new DumpedPrivateKey(mainParams, "Rfpv4Xq78pKdDqoR62XDoobvhA6v11sD13RzVPatEWPxbbs7YX2r").getKey();
+        ECKey key1 = DumpedPrivateKey.fromBase58(mainParams, "Rfpv4Xq78pKdDqoR62XDoobvhA6v11sD13RzVPatEWPxbbs7YX2r").getKey();
         key1 = ECKey.fromPrivate(key1.getPrivKeyBytes());
-        ECKey key2 = new DumpedPrivateKey(mainParams, "RaH51RERGj2vRT95NcTkn1VZDQvJq9qnXWsPQ5CWYMkapAZEup8g").getKey();
+        ECKey key2 = DumpedPrivateKey.fromBase58(mainParams, "RaH51RERGj2vRT95NcTkn1VZDQvJq9qnXWsPQ5CWYMkapAZEup8g").getKey();
         key2 = ECKey.fromPrivate(key2.getPrivKeyBytes());
-        ECKey key3 = new DumpedPrivateKey(mainParams, "Rgz1vKxL6eJTdsZ9DC8F29WP4jXyKngJjqkUiFsp4wSYY9hQZrZa").getKey();
+        ECKey key3 = DumpedPrivateKey.fromBase58(mainParams, "Rgz1vKxL6eJTdsZ9DC8F29WP4jXyKngJjqkUiFsp4wSYY9hQZrZa").getKey();
         key3 = ECKey.fromPrivate(key3.getPrivKeyBytes());
 
         List<ECKey> keys = Arrays.asList(key1, key2, key3);
@@ -200,8 +200,14 @@ public class AddressTest {
     }
 
     @Test
+    public void roundtripBase58() throws Exception {
+        String base58 = "17kzeh4N8g49GFvdDzSf8PjaPfyoD1MndL";
+        assertEquals(base58, Address.fromBase58(null, base58).toBase58());
+    }
+
+    @Test
     public void comparisonCloneEqualTo() throws Exception {
-        Address a = new Address(mainParams, "GHy1PBNR6C8vamVaXzRsiJmx8Hmg2cB9BJ");
+        Address a = Address.fromBase58(mainParams, "GHy1PBNR6C8vamVaXzRsiJmx8Hmg2cB9BJ");
         Address b = a.clone();
 
         int result = a.compareTo(b);
@@ -210,7 +216,7 @@ public class AddressTest {
 
     @Test
     public void comparisonEqualTo() throws Exception {
-        Address a = new Address(mainParams, "GHy1PBNR6C8vamVaXzRsiJmx8Hmg2cB9BJ");
+        Address a = Address.fromBase58(mainParams, "1Dorian4RoXcnBv9hnQ4Y2C1an6NJ4UrjX");
         Address b = a.clone();
 
         int result = a.compareTo(b);
@@ -219,8 +225,8 @@ public class AddressTest {
 
     @Test
     public void comparisonLessThan() throws Exception {
-        Address a = new Address(mainParams, "GHy1PBNR6C8vamVaXzRsiJmx8Hmg2cB9BJ");
-        Address b = new Address(mainParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
+        Address a = Address.fromBase58(mainParams, "GHy1PBNR6C8vamVaXzRsiJmx8Hmg2cB9BJ");
+        Address b = Address.fromBase58(mainParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
 
         int result = a.compareTo(b);
         assertTrue(result < 0);
@@ -228,8 +234,8 @@ public class AddressTest {
 
     @Test
     public void comparisonGreaterThan() throws Exception {
-        Address a = new Address(mainParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
-        Address b = new Address(mainParams, "GHy1PBNR6C8vamVaXzRsiJmx8Hmg2cB9BJ");
+        Address a = Address.fromBase58(mainParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
+        Address b = Address.fromBase58(mainParams, "GHy1PBNR6C8vamVaXzRsiJmx8Hmg2cB9BJ");
 
         int result = a.compareTo(b);
         assertTrue(result > 0);
@@ -238,8 +244,8 @@ public class AddressTest {
     @Test
     public void comparisonBytesVsString() throws Exception {
         // TODO: To properly test this we need a much larger data set
-        Address a = new Address(mainParams, "GHy1PBNR6C8vamVaXzRsiJmx8Hmg2cB9BJ");
-        Address b = new Address(mainParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
+        Address a = Address.fromBase58(mainParams, "GHy1PBNR6C8vamVaXzRsiJmx8Hmg2cB9BJ");
+        Address b = Address.fromBase58(mainParams, "GSZAFrTk92iErjAka55BhmN42nN7hXVJef");
 
         int resultBytes = a.compareTo(b);
         int resultsString = a.toString().compareTo(b.toString());

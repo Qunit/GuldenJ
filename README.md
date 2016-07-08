@@ -1,5 +1,6 @@
-Build status: [![Build Status](https://travis-ci.org/guldenj/guldenj.png?branch=master)](https://travis-ci.org/guldenj/guldenj)  
-Coverage status: [![Coverage Status](https://coveralls.io/repos/guldenj/guldenj/badge.png?branch=master)](https://coveralls.io/r/guldenj/guldenj?branch=master)
+[![Build Status](https://travis-ci.org/guldenj/guldenj.png?branch=master)](https://travis-ci.org/guldenj/guldenj)   [![Coverage Status](https://coveralls.io/repos/guldenj/guldenj/badge.png?branch=master)](https://coveralls.io/r/guldenj/guldenj?branch=master) 
+
+[![Visit our IRC channel](https://kiwiirc.com/buttons/irc.freenode.net/guldenj.png)](https://kiwiirc.com/client/irc.freenode.net/guldenj)
 
 ### Welcome to guldenj
 
@@ -10,7 +11,7 @@ The guldenj library is a Java implementation of the Bitcoin protocol, which allo
 * Java 6 for the core modules, Java 8 for everything else
 * [Maven 3+](http://maven.apache.org) - for building the project
 * [Orchid](https://github.com/subgraph/Orchid) - for secure communications over [TOR](https://www.torproject.org)
-* [Google Protocol Buffers](https://code.google.com/p/protobuf/) - for use with serialization and hardware communications
+* [Google Protocol Buffers](https://github.com/google/protobuf) - for use with serialization and hardware communications
 
 ### Getting started
 

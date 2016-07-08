@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.guldenj.store;
 
 import com.google.common.collect.Lists;
@@ -420,7 +421,7 @@ public abstract class DatabaseFullPrunedBlockStore implements FullPrunedBlockSto
      * <p>This will also automatically set up the schema if it does not exist within the DB.</p>
      * @throws BlockStoreException if successful connection to the DB couldn't be made.
      */
-    protected synchronized void maybeConnect() throws BlockStoreException {
+    protected synchronized final void maybeConnect() throws BlockStoreException {
         try {
             if (conn.get() != null && !conn.get().isClosed())
                 return;
@@ -562,7 +563,7 @@ public abstract class DatabaseFullPrunedBlockStore implements FullPrunedBlockSto
             // Set up the genesis block. When we start out fresh, it is by
             // definition the top of the chain.
             StoredBlock storedGenesisHeader = new StoredBlock(params.getGenesisBlock().cloneAsHeader(), params.getGenesisBlock().getWork(), 0);
-            // The coinbase in the genesis block is not spendable. This is because of how the reference client inits
+            // The coinbase in the genesis block is not spendable. This is because of how Bitcoin Core inits
             // its database - the genesis transaction isn't actually in the db so its spent flags can never be updated.
             List<Transaction> genesisTransactions = Lists.newLinkedList();
             StoredUndoableBlock storedGenesis = new StoredUndoableBlock(params.getGenesisBlock().getHash(), genesisTransactions);
@@ -749,7 +750,7 @@ public abstract class DatabaseFullPrunedBlockStore implements FullPrunedBlockSto
 
             BigInteger chainWork = new BigInteger(results.getBytes(1));
             int height = results.getInt(2);
-            Block b = new Block(params, results.getBytes(3));
+            Block b = params.getDefaultSerializer().makeBlock(results.getBytes(3));
             b.verifyHeader();
             StoredBlock stored = new StoredBlock(b, chainWork, height);
             return stored;
@@ -811,7 +812,7 @@ public abstract class DatabaseFullPrunedBlockStore implements FullPrunedBlockSto
                         ((transactions[offset++] & 0xFF) << 24);
                 List<Transaction> transactionList = new LinkedList<Transaction>();
                 for (int i = 0; i < numTxn; i++) {
-                    Transaction tx = new Transaction(params, transactions, offset);
+                    Transaction tx = params.getDefaultSerializer().makeTransaction(transactions, offset);
                     transactionList.add(tx);
                     offset += tx.getMessageSize();
                 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +19,10 @@ package org.guldenj.wallet;
 import org.guldenj.core.BloomFilter;
 import org.guldenj.core.ECKey;
 import org.guldenj.crypto.*;
-import org.guldenj.store.UnreadableWalletException;
 import org.guldenj.utils.ListenerRegistration;
 import org.guldenj.utils.Threading;
+import org.guldenj.wallet.listeners.KeyChainEventListener;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.protobuf.ByteString;
@@ -348,8 +349,8 @@ public class BasicKeyChain implements EncryptableKeyChain {
     /**
      * Returns a new BasicKeyChain that contains all basic, ORIGINAL type keys and also any encrypted keys extracted
      * from the list. Unrecognised key types are ignored.
-     * @throws org.guldenj.store.UnreadableWalletException.BadPassword if the password doesn't seem to match
-     * @throws org.guldenj.store.UnreadableWalletException if the data structures are corrupted/inconsistent
+     * @throws org.guldenj.wallet.UnreadableWalletException.BadPassword if the password doesn't seem to match
+     * @throws org.guldenj.wallet.UnreadableWalletException if the data structures are corrupted/inconsistent
      */
     public static BasicKeyChain fromProtobufEncrypted(List<Protos.Key> keys, KeyCrypter crypter) throws UnreadableWalletException {
         BasicKeyChain chain = new BasicKeyChain(checkNotNull(crypter));
@@ -384,7 +385,7 @@ public class BasicKeyChain implements EncryptableKeyChain {
                     else
                         ecKey = ECKey.fromPublicOnly(pub);
                 }
-                ecKey.setCreationTimeSeconds((key.getCreationTimestamp() + 500) / 1000);
+                ecKey.setCreationTimeSeconds(key.getCreationTimestamp() / 1000);
                 importKeyLocked(ecKey);
             }
         } finally {

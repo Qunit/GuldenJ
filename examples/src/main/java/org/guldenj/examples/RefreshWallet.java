@@ -21,11 +21,14 @@ import org.guldenj.core.*;
 import org.guldenj.params.TestNet3Params;
 import org.guldenj.store.BlockStore;
 import org.guldenj.store.MemoryBlockStore;
+import org.guldenj.wallet.Wallet;
+import org.guldenj.wallet.listeners.WalletCoinsReceivedEventListener;
 
 import java.io.File;
 
 /**
  * RefreshWallet loads a wallet, then processes the block chain to update the transaction pools within it.
+ * To get a test wallet you can use wallet-tool from the tools subproject.
  */
 public class RefreshWallet {
     public static void main(String[] args) throws Exception {
@@ -41,7 +44,7 @@ public class RefreshWallet {
         final PeerGroup peerGroup = new PeerGroup(params, chain);
         peerGroup.startAsync();
 
-        wallet.addEventListener(new AbstractWalletEventListener() {
+        wallet.addCoinsReceivedEventListener(new WalletCoinsReceivedEventListener() {
             @Override
             public synchronized void onCoinsReceived(Wallet w, Transaction tx, Coin prevBalance, Coin newBalance) {
                 System.out.println("\nReceived tx " + tx.getHashAsString());

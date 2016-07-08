@@ -17,7 +17,6 @@
 package org.guldenj.wallet;
 
 import org.guldenj.core.Transaction;
-import org.guldenj.core.Wallet;
 
 import java.util.List;
 

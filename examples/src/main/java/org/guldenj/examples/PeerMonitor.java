@@ -17,7 +17,8 @@
 
 package org.guldenj.examples;
 
-import org.guldenj.core.AbstractPeerEventListener;
+import org.guldenj.core.listeners.PeerConnectedEventListener;
+import org.guldenj.core.listeners.PeerDisconnectedEventListener;
 import org.guldenj.core.NetworkParameters;
 import org.guldenj.core.Peer;
 import org.guldenj.core.PeerGroup;
@@ -67,13 +68,14 @@ public class PeerMonitor {
         peerGroup.setUserAgent("PeerMonitor", "1.0");
         peerGroup.setMaxConnections(4);
         peerGroup.addPeerDiscovery(new DnsDiscovery(params));
-        peerGroup.addEventListener(new AbstractPeerEventListener() {
+        peerGroup.addConnectedEventListener(new PeerConnectedEventListener() {
             @Override
             public void onPeerConnected(final Peer peer, int peerCount) {
                 refreshUI();
                 lookupReverseDNS(peer);
             }
-
+        });
+        peerGroup.addDisconnectedEventListener(new PeerDisconnectedEventListener() {
             @Override
             public void onPeerDisconnected(final Peer peer, int peerCount) {
                 refreshUI();

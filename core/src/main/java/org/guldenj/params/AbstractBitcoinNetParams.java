@@ -1,5 +1,6 @@
 /*
  * Copyright 2013 Google Inc.
+ * Copyright 2015 Andreas Schildbach
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +18,7 @@
 package org.guldenj.params;
 
 import java.math.BigInteger;
+import java.util.concurrent.TimeUnit;
 
 import org.guldenj.core.Block;
 import org.guldenj.core.Coin;
@@ -32,6 +34,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.guldenj.core.CommonDiff;
+import com.google.common.base.Stopwatch;
+
+import org.guldenj.core.BitcoinSerializer;
 
 /**
  * Parameters for Bitcoin-like networks.
@@ -85,7 +90,7 @@ public abstract class AbstractBitcoinNetParams extends NetworkParameters {
 
         if (newTargetCompact != receivedTargetCompact)
             throw new VerificationException("Network provided difficulty bits do not match what was calculated: " +
-                    newTargetCompact + " vs " + receivedTargetCompact);
+                    Long.toHexString(newTargetCompact) + " vs " + Long.toHexString(receivedTargetCompact));
     }
 
     @Override
@@ -101,6 +106,16 @@ public abstract class AbstractBitcoinNetParams extends NetworkParameters {
     @Override
     public MonetaryFormat getMonetaryFormat() {
         return new MonetaryFormat();
+    }
+
+    @Override
+    public int getProtocolVersionNum(final ProtocolVersion version) {
+        return version.getBitcoinProtocolVersion();
+    }
+
+    @Override
+    public BitcoinSerializer getSerializer(boolean parseRetain) {
+        return new BitcoinSerializer(this, parseRetain);
     }
 
     @Override

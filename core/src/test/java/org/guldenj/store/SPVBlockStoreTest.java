@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,7 +45,7 @@ public class SPVBlockStoreTest {
 
 
         // Build a new block.
-        StoredBlock b1 = genesis.build(genesis.getHeader().createNextBlock(to, store).cloneAsHeader());
+        StoredBlock b1 = genesis.build(genesis.getHeader().createNextBlock(to).cloneAsHeader());
         store.put(b1);
         store.setChainHead(b1);
         store.close();

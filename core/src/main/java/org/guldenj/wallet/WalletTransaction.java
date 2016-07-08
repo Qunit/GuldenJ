@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2012 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@ import org.guldenj.core.Transaction;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Stores data about a transaction that is only relevant to the {@link org.guldenj.core.Wallet} class.
+ * Stores data about a transaction that is only relevant to the {@link org.guldenj.wallet.Wallet} class.
  */
 public class WalletTransaction {
     public enum Pool {

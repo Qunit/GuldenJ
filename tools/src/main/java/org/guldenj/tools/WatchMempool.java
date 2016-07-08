@@ -20,7 +20,7 @@ package org.guldenj.tools;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.guldenj.core.AbstractPeerEventListener;
+import org.guldenj.core.listeners.*;
 import org.guldenj.core.NetworkParameters;
 import org.guldenj.core.Peer;
 import org.guldenj.core.PeerGroup;
@@ -49,7 +49,7 @@ public class WatchMempool {
         PeerGroup peerGroup = new PeerGroup(PARAMS);
         peerGroup.setMaxConnections(32);
         peerGroup.addPeerDiscovery(new DnsDiscovery(PARAMS));
-        peerGroup.addEventListener(new AbstractPeerEventListener() {
+        peerGroup.addOnTransactionBroadcastListener(new OnTransactionBroadcastListener() {
             @Override
             public void onTransaction(Peer peer, Transaction tx) {
                 Result result = DefaultRiskAnalysis.FACTORY.create(null, tx, NO_DEPS).analyze();

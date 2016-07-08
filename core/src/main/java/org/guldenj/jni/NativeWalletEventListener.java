@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +19,9 @@ package org.guldenj.jni;
 import org.guldenj.core.Coin;
 import org.guldenj.core.ECKey;
 import org.guldenj.core.Transaction;
-import org.guldenj.core.Wallet;
-import org.guldenj.core.WalletEventListener;
 import org.guldenj.script.Script;
+import org.guldenj.wallet.Wallet;
+import org.guldenj.wallet.listeners.WalletEventListener;
 
 import java.util.List;
 

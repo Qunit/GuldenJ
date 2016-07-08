@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,7 @@
 
 package org.guldenj.jni;
 
+import org.guldenj.core.listeners.*;
 import org.guldenj.core.*;
 
 import javax.annotation.*;
@@ -27,7 +28,7 @@ import java.util.Set;
  * this class using JNI on the native side, thus several instances of this can point to different actual
  * native implementations.
  */
-public class NativePeerEventListener implements PeerEventListener {
+public class NativePeerEventListener implements PeerConnectionEventListener, PeerDataEventListener, OnTransactionBroadcastListener {
     public long ptr;
 
     @Override

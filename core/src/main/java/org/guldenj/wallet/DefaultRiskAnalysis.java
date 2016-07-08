@@ -25,7 +25,6 @@ import org.guldenj.core.Transaction;
 import org.guldenj.core.TransactionConfidence;
 import org.guldenj.core.TransactionInput;
 import org.guldenj.core.TransactionOutput;
-import org.guldenj.core.Wallet;
 import org.guldenj.crypto.TransactionSignature;
 import org.guldenj.script.ScriptChunk;
 import org.slf4j.Logger;
@@ -127,7 +126,7 @@ public class DefaultRiskAnalysis implements RiskAnalysis {
     }
 
     /**
-     * <p>Checks if a transaction is considered "standard" by the reference client's IsStandardTx and AreInputsStandard
+     * <p>Checks if a transaction is considered "standard" by Bitcoin Core's IsStandardTx and AreInputsStandard
      * functions.</p>
      *
      * <p>Note that this method currently only implements a minimum of checks. More to be added later.</p>

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,14 +22,14 @@ import org.guldenj.core.Utils;
 import org.guldenj.crypto.KeyCrypter;
 import org.guldenj.crypto.KeyCrypterException;
 import org.guldenj.crypto.KeyCrypterScrypt;
-import org.guldenj.store.UnreadableWalletException;
 import org.guldenj.utils.Threading;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.guldenj.wallet.AbstractKeyChainEventListener;
+
 import org.guldenj.wallet.BasicKeyChain;
 import org.guldenj.wallet.KeyChain;
 import org.guldenj.wallet.Protos;
+import org.guldenj.wallet.listeners.AbstractKeyChainEventListener;
 import org.junit.Before;
 import org.junit.Test;
 

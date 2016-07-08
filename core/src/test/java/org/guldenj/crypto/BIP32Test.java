@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2013 Matija Mazi.
  * Copyright 2014 Andreas Schildbach
  *
@@ -17,7 +17,6 @@
 
 package org.guldenj.crypto;
 
-import org.guldenj.core.AddressFormatException;
 import org.guldenj.core.Base58;
 import com.google.common.base.Functions;
 import com.google.common.base.Joiner;
@@ -128,7 +127,7 @@ public class BIP32Test {
         testVector(1);
     }
 
-    private void testVector(int testCase) throws AddressFormatException {
+    private void testVector(int testCase) {
         log.info("=======  Test vector {}", testCase);
         HDWTestVector tv = tvs[testCase];
         NetworkParameters params = MainNetParams.get();
@@ -147,7 +146,7 @@ public class BIP32Test {
         }
     }
 
-    private String testEncode(String what) throws AddressFormatException {
+    private String testEncode(String what) {
         return HEX.encode(Base58.decodeChecked(what));
     }
 

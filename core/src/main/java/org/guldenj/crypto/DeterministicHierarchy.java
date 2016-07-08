@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2013 Matija Mazi.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,6 @@ package org.guldenj.crypto;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -41,7 +40,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  * <p>The hierarchy is started from a single root key, and a location in the tree is given by a path which
  * is a list of {@link ChildNumber}s.</p>
  */
-public class DeterministicHierarchy implements Serializable {
+public class DeterministicHierarchy {
     private final Map<ImmutableList<ChildNumber>, DeterministicKey> keys = Maps.newHashMap();
     private final ImmutableList<ChildNumber> rootPath;
     // Keep track of how many child keys each node has. This is kind of weak.
@@ -62,7 +61,7 @@ public class DeterministicHierarchy implements Serializable {
      * Inserts a key into the heirarchy. Used during deserialization: you normally don't need this. Keys must be
      * inserted in order.
      */
-    public void putKey(DeterministicKey key) {
+    public final void putKey(DeterministicKey key) {
         ImmutableList<ChildNumber> path = key.getPath();
         // Update our tracking of what the next child in each branch of the tree should be. Just assume that keys are
         // inserted in order here.

@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.guldenj.uri;
@@ -24,16 +23,19 @@ import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 
 import static org.guldenj.core.Coin.*;
+import org.guldenj.core.NetworkParameters;
 import static org.junit.Assert.*;
 
 public class GuldenURITest {
     private GuldenURI testObject = null;
 
-    private static final String MAINNET_GOOD_ADDRESS = "GbMFoq3q1KyrcTFzCi255rEzKJDQ5HULkj";
+    private static final NetworkParameters MAINNET = MainNetParams.get();
+    private static final String MAINNET_GOOD_ADDRESS = "1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH";
+    private static final String BITCOIN_SCHEME = MAINNET.getUriScheme();
 
     @Test
     public void testConvertToGuldenURI() throws Exception {
-        Address goodAddress = new Address(MainNetParams.get(), MAINNET_GOOD_ADDRESS);
+        Address goodAddress = Address.fromBase58(MAINNET, MAINNET_GOOD_ADDRESS);
         
         // simple example
         assertEquals("gulden:" + MAINNET_GOOD_ADDRESS + "?amount=12.34&label=Hello&message=AMessage", GuldenURI.convertToGuldenURI(goodAddress, parseCoin("12.34"), "Hello", "AMessage"));
@@ -66,11 +68,22 @@ public class GuldenURITest {
         // no amount, no label, no message
         assertEquals("gulden:" + MAINNET_GOOD_ADDRESS, GuldenURI.convertToGuldenURI(goodAddress, null, null, null));
         assertEquals("gulden:" + MAINNET_GOOD_ADDRESS, GuldenURI.convertToGuldenURI(goodAddress, null, "", ""));
+
+        // different scheme
+        final NetworkParameters alternativeParameters = new MainNetParams() {
+            @Override
+            public String getUriScheme() {
+                return "test";
+            }
+        };
+
+        assertEquals("test:" + MAINNET_GOOD_ADDRESS + "?amount=12.34&label=Hello&message=AMessage",
+             GuldenURI.convertToGuldenURI(Address.fromBase58(alternativeParameters, MAINNET_GOOD_ADDRESS), parseCoin("12.34"), "Hello", "AMessage"));
     }
 
     @Test
     public void testGood_Simple() throws GuldenURIParseException {
-        testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS);
+        testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS);
         assertNotNull(testObject);
         assertNull("Unexpected amount", testObject.getAmount());
         assertNull("Unexpected label", testObject.getLabel());
@@ -83,7 +96,7 @@ public class GuldenURITest {
     @Test
     public void testBad_Scheme() {
         try {
-            testObject = new GuldenURI(MainNetParams.get(), "blimpcoin:" + MAINNET_GOOD_ADDRESS);
+            testObject = new GuldenURI(MAINNET, "blimpcoin:" + MAINNET_GOOD_ADDRESS);
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
         }
@@ -96,14 +109,14 @@ public class GuldenURITest {
     public void testBad_BadSyntax() {
         // Various illegal characters
         try {
-            testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + "|" + MAINNET_GOOD_ADDRESS);
+            testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + "|" + MAINNET_GOOD_ADDRESS);
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
             assertTrue(e.getMessage().contains("Bad URI syntax"));
         }
 
         try {
-            testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS + "\\");
+            testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS + "\\");
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
             assertTrue(e.getMessage().contains("Bad URI syntax"));
@@ -111,7 +124,7 @@ public class GuldenURITest {
 
         // Separator without field
         try {
-            testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":");
+            testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":");
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
             assertTrue(e.getMessage().contains("Bad URI syntax"));
@@ -124,7 +137,7 @@ public class GuldenURITest {
     @Test
     public void testBad_Address() {
         try {
-            testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME);
+            testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME);
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
         }
@@ -136,7 +149,7 @@ public class GuldenURITest {
     @Test
     public void testBad_IncorrectAddressType() {
         try {
-            testObject = new GuldenURI(TestNet3Params.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS);
+            testObject = new GuldenURI(TestNet3Params.get(), BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS);
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
             assertTrue(e.getMessage().contains("Bad address"));
@@ -152,17 +165,17 @@ public class GuldenURITest {
     @Test
     public void testGood_Amount() throws GuldenURIParseException {
         // Test the decimal parsing
-        testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?amount=6543210.12345678");
         assertEquals("654321012345678", testObject.getAmount().toString());
 
         // Test the decimal parsing
-        testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?amount=.12345678");
         assertEquals("12345678", testObject.getAmount().toString());
 
         // Test the integer parsing
-        testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?amount=6543210");
         assertEquals("654321000000000", testObject.getAmount().toString());
     }
@@ -175,7 +188,7 @@ public class GuldenURITest {
      */
     @Test
     public void testGood_Label() throws GuldenURIParseException {
-        testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?label=Hello%20World");
         assertEquals("Hello World", testObject.getLabel());
     }
@@ -190,7 +203,7 @@ public class GuldenURITest {
     public void testGood_LabelWithAmpersandAndPlus() throws GuldenURIParseException {
         String testString = "Hello Earth & Mars + Venus";
         String encodedLabel = GuldenURI.encodeURLString(testString);
-        testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS + "?label="
+        testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS + "?label="
                 + encodedLabel);
         assertEquals(testString, testObject.getLabel());
     }
@@ -206,7 +219,7 @@ public class GuldenURITest {
         // Moscow in Russian in Cyrillic
         String moscowString = "\u041c\u043e\u0441\u043a\u0432\u0430";
         String encodedLabel = GuldenURI.encodeURLString(moscowString); 
-        testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS + "?label="
+        testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS + "?label="
                 + encodedLabel);
         assertEquals(moscowString, testObject.getLabel());
     }
@@ -219,9 +232,9 @@ public class GuldenURITest {
      */
     @Test
     public void testGood_Message() throws GuldenURIParseException {
-/*        testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?message=Hello%20World");
-        assertEquals("Hello World", testObject.getMessage());*/
+        assertEquals("Hello World", testObject.getMessage());
     }
 
     /**
@@ -232,7 +245,7 @@ public class GuldenURITest {
      */
     @Test
     public void testGood_Combinations() throws GuldenURIParseException {
-        testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?amount=6543210&label=Hello%20World&message=Be%20well");
         assertEquals(
                 "GuldenURI['amount'='654321000000000','label'='Hello World','message'='Be well','address'='GbMFoq3q1KyrcTFzCi255rEzKJDQ5HULkj']",
@@ -249,7 +262,7 @@ public class GuldenURITest {
     public void testBad_Amount() throws GuldenURIParseException {
         // Missing
         try {
-            testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+            testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                     + "?amount=");
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
@@ -258,7 +271,7 @@ public class GuldenURITest {
 
         // Non-decimal (BIP 21)
         try {
-            testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+            testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                     + "?amount=12X4");
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
@@ -268,13 +281,13 @@ public class GuldenURITest {
 
     @Test
     public void testEmpty_Label() throws GuldenURIParseException {
-        assertNull(new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        assertNull(new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?label=").getLabel());
     }
 
     @Test
     public void testEmpty_Message() throws GuldenURIParseException {
-        assertNull(new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        assertNull(new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?message=").getMessage());
     }
 
@@ -287,7 +300,7 @@ public class GuldenURITest {
     @Test
     public void testBad_Duplicated() throws GuldenURIParseException {
         try {
-            testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+            testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                     + "?address=aardvark");
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
@@ -297,7 +310,7 @@ public class GuldenURITest {
 
     @Test
     public void testGood_ManyEquals() throws GuldenURIParseException {
-        assertEquals("aardvark=zebra", new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":"
+        assertEquals("aardvark=zebra", new GuldenURI(MAINNET, BITCOIN_SCHEME + ":"
                 + MAINNET_GOOD_ADDRESS + "?label=aardvark=zebra").getLabel());
     }
     
@@ -310,7 +323,7 @@ public class GuldenURITest {
     @Test
     public void testUnknown() throws GuldenURIParseException {
         // Unknown not required field
-        testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?aardvark=true");
         assertEquals("GuldenURI['aardvark'='true','address'='GbMFoq3q1KyrcTFzCi255rEzKJDQ5HULkj']", testObject.toString());
 
@@ -318,7 +331,7 @@ public class GuldenURITest {
 
         // Unknown not required field (isolated)
         try {
-            testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+            testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                     + "?aardvark");
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
@@ -327,7 +340,7 @@ public class GuldenURITest {
 
         // Unknown and required field
         try {
-            testObject = new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+            testObject = new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                     + "?req-aardvark=true");
             fail("Expecting GuldenURIParseException");
         } catch (GuldenURIParseException e) {
@@ -346,19 +359,19 @@ public class GuldenURITest {
 
     @Test(expected = GuldenURIParseException.class)
     public void testBad_AmountTooPrecise() throws GuldenURIParseException {
-        new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?amount=0.123456789");
     }
 
     @Test(expected = GuldenURIParseException.class)
     public void testBad_NegativeAmount() throws GuldenURIParseException {
-        new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?amount=-1");
     }
 
     @Test(expected = GuldenURIParseException.class)
     public void testBad_TooLargeAmount() throws GuldenURIParseException {
-        new GuldenURI(MainNetParams.get(), GuldenURI.BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
+        new GuldenURI(MAINNET, BITCOIN_SCHEME + ":" + MAINNET_GOOD_ADDRESS
                 + "?amount=90000000000");
     }
 
@@ -374,7 +387,7 @@ public class GuldenURITest {
 
     @Test
     public void testMultiplePaymentProtocolReq() throws Exception {
-        GuldenURI uri = new GuldenURI(MainNetParams.get(),
+        GuldenURI uri = new GuldenURI(MAINNET,
                 "gulden:?r=https%3A%2F%2Fbitcoincore.org%2F%7Egavin&r1=bt:112233445566");
         assertEquals(ImmutableList.of("bt:112233445566", "https://bitcoincore.org/~gavin"), uri.getPaymentRequestUrls());
         assertEquals("https://bitcoincore.org/~gavin", uri.getPaymentRequestUrl());
@@ -382,7 +395,7 @@ public class GuldenURITest {
 
     @Test
     public void testNoPaymentProtocolReq() throws Exception {
-        GuldenURI uri = new GuldenURI(MainNetParams.get(), "gulden:" + MAINNET_GOOD_ADDRESS);
+        GuldenURI uri = new GuldenURI(MAINNET, "gulden:" + MAINNET_GOOD_ADDRESS);
         assertNull(uri.getPaymentRequestUrl());
         assertEquals(ImmutableList.of(), uri.getPaymentRequestUrls());
         assertNotNull(uri.getAddress());

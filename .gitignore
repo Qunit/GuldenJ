@@ -1,0 +1,6 @@
+*/target/*
+*.iml
+test.lock.db
+.idea
+*.spvchain
+*.wallet

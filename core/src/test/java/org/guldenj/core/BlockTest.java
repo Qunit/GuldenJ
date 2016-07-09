@@ -70,7 +70,7 @@ public class BlockTest {
     public void testBlockVerification() throws Exception {
         Block block = PARAMS.getDefaultSerializer().makeBlock(blockBytes);
         block.verify(Block.BLOCK_HEIGHT_GENESIS, EnumSet.noneOf(Block.VerifyFlag.class));
-        assertEquals("00000000a6e5eb79dcec11897af55e90cd571a4335383a3ccfbc12ec81085935", block.getHashAsString());*/
+        assertEquals("00000000a6e5eb79dcec11897af55e90cd571a4335383a3ccfbc12ec81085935", block.getHashAsString());
     }
     
     @SuppressWarnings("deprecation")

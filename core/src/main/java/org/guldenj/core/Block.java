@@ -17,28 +17,25 @@
 
 package org.guldenj.core;
 
-import com.google.common.annotations.*;
-import com.google.common.base.*;
-import com.google.common.collect.*;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
-import org.guldenj.script.*;
-import org.slf4j.*;
-import org.guldenj.store.BlockStore;
-import org.guldenj.store.BlockStoreException;
-import org.guldenj.core.StoredBlock;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import org.guldenj.script.Script;
+import org.guldenj.script.ScriptBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.annotation.*;
-import java.io.*;
-import java.math.*;
+import javax.annotation.Nullable;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.math.BigInteger;
 import java.util.*;
-import java.util.Locale;
 
-import static org.guldenj.core.Coin.*;
-import static org.guldenj.core.Sha256Hash.*;
-
+import static org.guldenj.core.Coin.FIFTY_COINS;
+import static org.guldenj.core.Sha256Hash.hashTwice;
 import static org.guldenj.core.Utils.scryptDigest;
-
-import org.guldenj.core.CommonDiff;
 
 /**
  * <p>A block is a group of transactions, and is one of the fundamental data structures of the Bitcoin system.
@@ -953,8 +950,8 @@ public class Block extends Message {
      * Returns a solved block that builds on top of this one. This exists for unit tests.
      */
     @VisibleForTesting
-    public Block createNextBlock(Address to, long version, long time, BlockStore blockStore, int blockHeight) {
-        return createNextBlock(to, version, null, time, pubkeyForTesting, FIFTY_COINS, blockStore, blockHeight);
+    public Block createNextBlock(Address to, long version, long time, int blockHeight) {
+        return createNextBlock(to, version, null, time, pubkeyForTesting, FIFTY_COINS, blockHeight);
     }
 
     /**
@@ -966,19 +963,10 @@ public class Block extends Message {
     Block createNextBlock(@Nullable final Address to, final long version,
                           @Nullable TransactionOutPoint prevOut, final long time,
                           final byte[] pubKey, final Coin coinbaseValue,
-                          BlockStore blockStore,
                           final int height) {
         Block b = new Block(params, version);
-        try
-        {
-                b.addCoinbaseTransaction(pubKey, coinbaseValue, height);
-        	StoredBlock prevStored = blockStore!=null ? blockStore.get(this.getHash()) : new StoredBlock(this, getDifficultyTargetAsInteger(), 0);
-        	b.setDifficultyTarget( CommonDiff.GetNextWorkRequired(prevStored, b, NetworkParameters.TARGET_SPACING, Utils.encodeCompactBits(params.getMaxTarget()), blockStore));
-        }
-        catch(BlockStoreException e)
-        {
-        	throw new RuntimeException();	
-        }
+        b.setDifficultyTarget(difficultyTarget);
+        b.addCoinbaseTransaction(pubKey, coinbaseValue, height);
 
         if (to != null) {
             // Add a transaction paying 50 coins to the "to" address.
@@ -1020,24 +1008,24 @@ public class Block extends Message {
     }
 
     @VisibleForTesting
-    public Block createNextBlock(@Nullable Address to, TransactionOutPoint prevOut, BlockStore blockStore) {
-        return createNextBlock(to, BLOCK_VERSION_GENESIS, prevOut, getTimeSeconds() + 5, pubkeyForTesting, FIFTY_COINS, blockStore, BLOCK_HEIGHT_UNKNOWN);
+    public Block createNextBlock(@Nullable Address to, TransactionOutPoint prevOut) {
+        return createNextBlock(to, BLOCK_VERSION_GENESIS, prevOut, getTimeSeconds() + 5, pubkeyForTesting, FIFTY_COINS, BLOCK_HEIGHT_UNKNOWN);
     }
 
     @VisibleForTesting
-    public Block createNextBlock(@Nullable Address to, Coin value, BlockStore blockStore) {
-        return createNextBlock(to, BLOCK_VERSION_GENESIS, null, getTimeSeconds() + 5, pubkeyForTesting, value, blockStore, BLOCK_HEIGHT_UNKNOWN);
+    public Block createNextBlock(@Nullable Address to, Coin value) {
+        return createNextBlock(to, BLOCK_VERSION_GENESIS, null, getTimeSeconds() + 5, pubkeyForTesting, value, BLOCK_HEIGHT_UNKNOWN);
     }
 
     @VisibleForTesting
-    public Block createNextBlock(@Nullable Address to, BlockStore blockStore) {
-        return createNextBlock(to, FIFTY_COINS, blockStore);
+    public Block createNextBlock(@Nullable Address to) {
+        return createNextBlock(to, FIFTY_COINS);
     }
 
     @VisibleForTesting
-    public Block createNextBlockWithCoinbase(long version, byte[] pubKey, Coin coinbaseValue, BlockStore blockStore, final int height) {
+    public Block createNextBlockWithCoinbase(long version, byte[] pubKey, Coin coinbaseValue, final int height) {
         return createNextBlock(null, version, (TransactionOutPoint) null,
-                               Utils.currentTimeSeconds(), pubKey, coinbaseValue, blockStore, height);
+                               Utils.currentTimeSeconds(), pubKey, coinbaseValue, height);
     }
 
     /**
@@ -1045,9 +1033,9 @@ public class Block extends Message {
      * This method is intended for test use only.
      */
     @VisibleForTesting
-    Block createNextBlockWithCoinbase(long version, byte[] pubKey, BlockStore blockStore, final int height) {
+    Block createNextBlockWithCoinbase(long version, byte[] pubKey, final int height) {
         return createNextBlock(null, version, (TransactionOutPoint) null,
-                               Utils.currentTimeSeconds(), pubKey, FIFTY_COINS, blockStore, height);
+                               Utils.currentTimeSeconds(), pubKey, FIFTY_COINS, height);
     }
 
     @VisibleForTesting

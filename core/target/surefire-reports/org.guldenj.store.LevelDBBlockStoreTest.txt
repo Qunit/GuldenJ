@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: org.guldenj.store.LevelDBBlockStoreTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 sec - in org.guldenj.store.LevelDBBlockStoreTest

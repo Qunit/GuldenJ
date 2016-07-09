@@ -9,3 +9,5 @@ target
 test.lock.db
 *.spvchain
 *.wallet
+*.releaseBackup
+release.properties
